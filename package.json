@@ -1,0 +1,36 @@
+{
+  "name": "sinytravalias",
+  "version": "1.0.0",
+  "description": "A novel builder with LLM, focusing on setting RAG, context compression and other fields I care.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConstasJ/SinyTravalias.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ConstasJ/SinyTravalias/issues"
+  },
+  "homepage": "https://github.com/ConstasJ/SinyTravalias#readme",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.0",
+    "eslint": "^10.2.1",
+    "javascript-obfuscator": "^5.4.1",
+    "nodemon": "^3.1.14",
+    "rollup-plugin-obfuscator": "^1.1.0",
+    "ts-node": "^10.9.2",
+    "tsdown": "^0.21.9",
+    "typescript": "^6.0.3"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
