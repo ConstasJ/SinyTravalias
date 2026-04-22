@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "tsdown",
-    "start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/*.ts --exec tsx src/index.ts",
     "start": "node dist/index.mjs"
   },
   "repository": {
@@ -26,10 +26,11 @@
     "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
+    "cross-env": "^10.1.0",
     "eslint": "^10.2.1",
     "nodemon": "^3.1.14",
-    "ts-node": "^10.9.2",
     "tsdown": "^0.21.9",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "ai": "^6.0.168",
     "dotenv": "^17.4.2",
     "fast-json-patch": "^3.1.1",
+    "google-auth-library": "^10.6.2",
     "zod": "^4.3.6"
   },
   "packageManager": "pnpm@10.33.0"
