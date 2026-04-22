@@ -30,7 +30,7 @@ export const PlotNodeSchema = z.object({
     parent: z.string().nullable().describe("父节点的Hash值，如果没有父节点则为null"),
     doltHash: z.string().describe("当前节点对应的Dolt Commit Hash值"),
     summary: z.string().describe("当前情节节点的总结，简要描述这个节点的主要内容"),
-    sceneTextRef: z.string().describe("当前情节节点对应的场景文本的Chunk ID，指向向量数据库中的一个文本块"),
+    sceneTextRef: z.string().describe("当前情节节点对应的场景文本的Hash值，指向外部存储（文件，OSS）中的一个文本块"),
     milestone: z.string().nullable().describe("当前情节节点的里程碑，描述这个节点在整个故事中的重要性或转折点"),
     patches: z.array(_JSONPatchSchema).describe("当前情节节点的JSON Patch列表，记录从父节点到当前节点的状态机变化"),
     metadata: PlotNodeMetadataSchema,
