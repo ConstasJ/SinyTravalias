@@ -1,5 +1,5 @@
 import { type ModelMessage, streamText } from "ai";
-import { vertex } from './llm/index.js';
+import { getVertex } from './llm/index.js';
 import 'dotenv/config';
 import * as readline from 'node:readline/promises';
 
@@ -11,6 +11,8 @@ const terminal = readline.createInterface({
 const messages: ModelMessage[] = [];
 
 async function main() {
+    const vertex = await getVertex();
+
     while (true) {
         const input = await terminal.question("You: ");
         messages.push({ role: "user", content: input });

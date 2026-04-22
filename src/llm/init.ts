@@ -1,21 +1,65 @@
+import {
+    ProxyAgent,
+    fetch as uFetch,
+    type RequestInfo,
+    type RequestInit as uRequestInit,
+} from "undici";
 import { JWT } from "google-auth-library";
 import { resolve, isAbsolute } from "node:path";
 import { readFile } from "node:fs/promises";
 import { createVertex } from "@ai-sdk/google-vertex";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
-const auth = new JWT({
-    scopes: ["https://www.googleapis.com/auth/cloud-platform"],
-})
-const filename = process.env.GOOGLE_APPLICATION_CREDENTIALS ?? "./credentials.json";
-const filepath = isAbsolute(filename) ? filename : resolve(process.cwd(), filename);
-const jsonCredentials = JSON.parse(await readFile(filepath, "utf-8"));
-auth.fromJSON(jsonCredentials);
-await auth.authorize();
+async function initVertex() {
+    try {
+        const proxy = process.env.HTTP_PROXY ?? process.env.http_proxy;
+        let customFetch = fetch;
+        if (proxy) {
+            const agent = new ProxyAgent(proxy);
+            customFetch = (url: string | URL | Request, init?: RequestInit) => {
+                const uInit = init as unknown as uRequestInit;
+                return uFetch(url as RequestInfo, {
+                    ...uInit,
+                    dispatcher: agent,
+                });
+            };
+        }
 
-export const vertex = createVertex({
-    project: jsonCredentials.project_id,
-    location: 'global',
-    googleAuthOptions: {
-        authClient: auth,
+        const filename =
+            process.env.GOOGLE_APPLICATION_CREDENTIALS ?? "./credentials.json";
+        const filePath = isAbsolute(filename)
+            ? filename
+            : resolve(process.cwd(), filename);
+        const credentials = JSON.parse(await readFile(filePath, "utf-8"));
+        const projectId = credentials.project_id;
+
+        const authClient = new JWT({
+            scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+        });
+        authClient.fromJSON(credentials);
+
+        return createVertex({
+            project: projectId,
+            location: "global",
+            googleAuthOptions: { authClient },
+            fetch: customFetch,
+        });
+    } catch (err) {
+        // 确保单例 Promise 在失败时能被清理，或者至少记录清晰的日志
+        vertexPromise = undefined;
+        throw new Error(
+            `Vertex AI Init Failed: ${err instanceof Error ? err.message : String(err)}`,
+        );
     }
-})
+}
+
+let vertexPromise: ReturnType<typeof initVertex> | undefined;
+
+export function getVertex() {
+    vertexPromise ??= initVertex();
+    return vertexPromise;
+}
+
+export const openRouter = createOpenRouter({
+    apiKey: process.env.OPENROUTER_API_KEY ?? "",
+});

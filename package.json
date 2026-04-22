@@ -36,11 +36,13 @@
   "dependencies": {
     "@ai-sdk/google-vertex": "^4.0.112",
     "@lenml/tokenizer-gemini": "^3.7.2",
+    "@openrouter/ai-sdk-provider": "^2.8.0",
     "@orama/orama": "^3.1.18",
     "ai": "^6.0.168",
     "dotenv": "^17.4.2",
     "fast-json-patch": "^3.1.1",
     "google-auth-library": "^10.6.2",
+    "undici": "^8.1.0",
     "zod": "^4.3.6"
   },
   "packageManager": "pnpm@10.33.0"
