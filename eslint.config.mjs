@@ -47,6 +47,7 @@ export default [
         {
           prefer: 'type-imports',
           disallowTypeAnnotations: false,
+          fixStyle: 'separate-type-imports',
         },
       ],
       '@typescript-eslint/no-floating-promises': 'error',
