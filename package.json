@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "tsdown",
-    "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/*.ts --exec tsx src/index.ts",
+    "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/*.ts --quiet --exec tsx src/index.ts",
     "start": "node dist/index.mjs"
   },
   "repository": {
