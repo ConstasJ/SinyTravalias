@@ -1,15 +1,5 @@
 import { z } from 'zod';
-
-const _DynamicValueSchema: z.ZodType<any> = z.lazy(() =>
-  z.union([
-    z.string(),
-    z.number(),
-    z.boolean(),
-    z.null(),
-    z.array(z.lazy(() => _DynamicValueSchema)),
-    z.record(z.string(), z.lazy(() => _DynamicValueSchema)),
-  ])
-);
+import { _DynamicValueSchema } from './utils.js';
 
 const _StoryMetaSchema = z.object({
     storyline: z.string().describe("故事线，指示故事发生的世界线（如果有多个世界线的话）"),
