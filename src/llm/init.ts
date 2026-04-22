@@ -11,21 +11,24 @@ import { createVertex } from "@ai-sdk/google-vertex";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { createAlibaba } from "@ai-sdk/alibaba";
 
+let globalDispatcher: ProxyAgent | undefined;
+
+const customFetch = (url: string | URL | Request, init?: RequestInit) => {
+    const proxy = process.env.HTTP_PROXY ?? process.env.http_proxy;
+    if (proxy) {
+        globalDispatcher ??= new ProxyAgent(proxy);
+        const uInit = init as unknown as uRequestInit;
+        return uFetch(url as RequestInfo, {
+            ...uInit,
+            dispatcher: globalDispatcher,
+        });
+    } else {
+        return fetch(url, init);
+    }
+}
+
 async function initVertex() {
     try {
-        const proxy = process.env.HTTP_PROXY ?? process.env.http_proxy;
-        let customFetch = fetch;
-        if (proxy) {
-            const agent = new ProxyAgent(proxy);
-            customFetch = (url: string | URL | Request, init?: RequestInit) => {
-                const uInit = init as unknown as uRequestInit;
-                return uFetch(url as RequestInfo, {
-                    ...uInit,
-                    dispatcher: agent,
-                });
-            };
-        }
-
         const filename =
             process.env.GOOGLE_APPLICATION_CREDENTIALS ?? "./credentials.json";
         const filePath = isAbsolute(filename)
@@ -63,9 +66,11 @@ export function getVertex() {
 
 export const openRouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY ?? "",
+    fetch: customFetch,
 });
 
 export const alibaba = createAlibaba({
     baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
     apiKey: process.env.ALIBABA_API_KEY ?? "",
+    fetch: customFetch,
 });
