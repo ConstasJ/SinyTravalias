@@ -27,7 +27,6 @@ const _WorldStateSchema = z.object({
 .catchall(_DynamicValueSchema);
 
 const _CharacterSkillSchema = z.object({
-    name: z.string().describe("技能的名称"),
     description: z.string().describe("技能的描述，说明这个技能是什么以及它的效果"),
     level: z.number().describe("技能的等级，表示角色在这个技能上的熟练程度，可以根据需要使用不同的数值范围"),
 })
