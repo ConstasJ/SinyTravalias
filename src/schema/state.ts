@@ -44,7 +44,7 @@ const _StyleSchema = z.object({
 })
 .catchall(_DynamicValueSchema);
 
-const _StateSchema = z.object({
+export const StateSchema = z.object({
     storyMeta: _StoryMetaSchema,
     world: _WorldStateSchema,
     characters: z.record(z.string(), _CharacterSchema).describe("角色状态，键为角色的名字，值为角色的状态信息"),
@@ -52,4 +52,4 @@ const _StateSchema = z.object({
     style: _StyleSchema,
 });
 
-export type GlobalState = z.infer<typeof _StateSchema>;
+export type GlobalState = z.infer<typeof StateSchema>;
