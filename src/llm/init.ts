@@ -9,6 +9,7 @@ import { resolve, isAbsolute } from "node:path";
 import { readFile } from "node:fs/promises";
 import { createVertex } from "@ai-sdk/google-vertex";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { createAlibaba } from "@ai-sdk/alibaba";
 
 async function initVertex() {
     try {
@@ -62,4 +63,9 @@ export function getVertex() {
 
 export const openRouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY ?? "",
+});
+
+export const alibaba = createAlibaba({
+    baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    apiKey: process.env.ALIBABA_API_KEY ?? "",
 });

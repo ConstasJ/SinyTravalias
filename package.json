@@ -34,6 +34,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@ai-sdk/alibaba": "^1.0.17",
     "@ai-sdk/google-vertex": "^4.0.112",
     "@lenml/tokenizer-gemini": "^3.7.2",
     "@openrouter/ai-sdk-provider": "^2.8.0",
