@@ -31,7 +31,7 @@ export const PlotNodeSchema = z.object({
     doltHash: z.string().describe("当前节点对应的Dolt Commit Hash值"),
     summary: z.string().describe("当前情节节点的总结，简要描述这个节点的主要内容"),
     sceneTextRef: z.string().describe("当前情节节点对应的场景文本的Hash值，指向外部存储（文件，OSS）中的一个文本块"),
-    milestone: z.string().nullable().describe("当前情节节点的里程碑，描述这个节点在整个故事中的重要性或转折点"),
+    milestone: z.string().nullable().describe("当前情节节点的里程碑，描述这个节点发生了什么影响后续剧情的事件，如果没有里程碑则为null"),
     metadata: PlotNodeMetadataSchema.describe("当前情节节点的元数据"),
     depth: z.number().describe("当前情节节点在情节树中的深度，根节点的深度为0，子节点的深度为父节点的深度加1"),
     createdAt: z.date().describe("当前情节节点的创建时间"),
