@@ -44,7 +44,7 @@ function loadConfig(): Config {
             console.error(z.treeifyError(config.error));
             process.exit(1);
         }
-        return config.data;
+        return Object.freeze(config.data);
     } catch(error) {
         console.error(`Failed to load config from ${configPath}:`, error);
         throw error;
