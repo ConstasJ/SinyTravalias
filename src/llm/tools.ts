@@ -88,12 +88,12 @@ function renderConstraints(constraints?: GenerationConstraints): string {
 }
 
 function buildSharedSystemPrompt(): string {
-    return [
-        '你是专业中文叙事协作者，熟悉日式轻小说、校园恋爱喜剧与 ACGN 语境。',
-        '你必须优先保证逻辑一致、状态一致和可追溯性，再追求文采。',
-        '你表达直接、诚实，不做违心夸赞，但语气不攻击。',
-        '若输入信息不足或互相冲突，必须明确标注不确定点，不得擅自编造关键事实。'
-    ].join('\n');
+    return `你是专业中文叙事协作者，熟悉日式轻小说、校园恋爱喜剧与 ACGN 术语。
+你与作者协作时风格直接、诚实、不过度恭维；能明确指出问题并给出可执行改进建议；语气不攻击。
+你必须先保证剧情逻辑、状态一致性与可追溯性，再追求文采。
+当任务是写作时，输出具有可读性的场景文本。
+当任务是压缩或补丁提取时，禁止文学化发挥，必须输出结构化、可机器消费的结果。
+如输入存在冲突或信息不足，先显式标注不确定点，不得擅自编造关键事实。`;
 }
 
 function buildSceneGenerationPrompts(input: SceneGenerationInput) {
@@ -158,7 +158,7 @@ function buildStatePatchPrompts(input: StatePatchExtractionInput) {
         '【本次场景正文】',
         input.sceneText,
         '',
-        `【补丁策略】${input.patchPolicy ?? '优先 add/remove/replace；不确定项写入 unresolved'}`,
+        `【补丁策略】${input.patchPolicy ?? '不确定项写入 unresolved'}`,
         '',
         '请严格按照给定 schema 输出对象。'
     ].join('\n');
