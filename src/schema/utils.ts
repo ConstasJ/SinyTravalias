@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const _DynamicValueSchema: z.ZodType<any> = z.lazy(() =>
+export const _DynamicValueSchema: z.ZodType<unknown> = z.lazy(() =>
     z.union([
         z.string(),
         z.number(),

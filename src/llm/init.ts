@@ -59,7 +59,8 @@ async function initVertex() {
 }
 
 export function getVertex() {
-    return (vertexPromise ??= initVertex());
+    vertexPromise ??= initVertex();
+    return vertexPromise;
 }
 
 export function getOpenRouter() {
@@ -67,10 +68,11 @@ export function getOpenRouter() {
     if (!apiKey) {
         throw new Error('OPENROUTER_API_KEY is not set in config');
     }
-    return (openRouterInstance ??= createOpenRouter({
+    openRouterInstance ??= createOpenRouter({
         apiKey,
         fetch: customFetch
-    }));
+    });
+    return openRouterInstance;
 }
 
 export function getAlibaba() {
@@ -78,9 +80,10 @@ export function getAlibaba() {
     if (!apiKey) {
         throw new Error('ALIBABA_API_KEY is not set in config');
     }
-    return (alibabaInstance ??= createAlibaba({
+    alibabaInstance ??= createAlibaba({
         baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
         apiKey,
         fetch: customFetch
-    }));
+    });
+    return alibabaInstance;
 }

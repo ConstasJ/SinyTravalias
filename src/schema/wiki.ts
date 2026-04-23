@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { _DynamicValueSchema, _JSONPatchSchema } from './utils.js';
+import { _JSONPatchSchema } from './utils.js';
 
 export const WikiReferenceSchema = z.object({
     name: z.string().describe('引用的名字，表示这个引用的含义或用途'),

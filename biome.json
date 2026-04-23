@@ -17,7 +17,7 @@
     },
     "linter": {
         "enabled": true,
-        "rules": { "recommended": false },
+        "rules": { "recommended": true },
         "includes": ["**", "!dist/**", "!node_modules/**", "!*.d.ts", "!*.map"]
     },
     "javascript": {
@@ -39,94 +39,6 @@
             "selfCloseVoidElements": "always"
         }
     },
-    "overrides": [
-        {
-            "includes": ["src/**/*.ts"],
-            "javascript": { "globals": [] },
-            "linter": {
-                "rules": {
-                    "complexity": {
-                        "noBannedTypes": "error",
-                        "noUselessThisAlias": "error",
-                        "noUselessTypeConstraint": "error",
-                        "useOptionalChain": "error"
-                    },
-                    "correctness": { "noUnusedVariables": "error" },
-                    "nursery": {
-                        "noDuplicateEnumValues": "error",
-                        "noFloatingPromises": "error",
-                        "noForIn": "error",
-                        "noImpliedEval": "error",
-                        "noMisusedPromises": "error",
-                        "noUnsafePlusOperands": "error",
-                        "useExplicitType": "off",
-                        "useNullishCoalescing": "warn"
-                    },
-                    "style": {
-                        "noCommonJs": "error",
-                        "noNamespace": "error",
-                        "useArrayLiterals": "error",
-                        "useAsConstAssertion": "error",
-                        "useConst": "error",
-                        "useImportType": {
-                            "level": "error",
-                            "options": { "style": "separatedType" }
-                        },
-                        "useThrowOnlyError": "error"
-                    },
-                    "suspicious": {
-                        "noConsole": {
-                            "level": "warn",
-                            "options": { "allow": ["warn", "error"] }
-                        },
-                        "noDebugger": "error",
-                        "noDoubleEquals": "error",
-                        "noExplicitAny": "off",
-                        "noExtraNonNullAssertion": "error",
-                        "noMisleadingInstantiator": "error",
-                        "noNonNullAssertedOptionalChain": "error",
-                        "noTsIgnore": "error",
-                        "noUnsafeDeclarationMerging": "error",
-                        "noUnusedExpressions": "off",
-                        "noVar": "error",
-                        "useAwait": "warn",
-                        "useNamespaceKeyword": "error"
-                    }
-                }
-            }
-        },
-        {
-            "includes": ["*.config.ts", "tsdown.config.ts"],
-            "javascript": { "globals": [] },
-            "linter": {
-                "rules": {
-                    "complexity": {
-                        "noBannedTypes": "error",
-                        "noUselessThisAlias": "error",
-                        "noUselessTypeConstraint": "error"
-                    },
-                    "correctness": { "noUnusedVariables": "error" },
-                    "nursery": { "noDuplicateEnumValues": "error" },
-                    "style": {
-                        "noCommonJs": "error",
-                        "noNamespace": "error",
-                        "useArrayLiterals": "error",
-                        "useAsConstAssertion": "error"
-                    },
-                    "suspicious": {
-                        "noExplicitAny": "error",
-                        "noExtraNonNullAssertion": "error",
-                        "noMisleadingInstantiator": "error",
-                        "noNonNullAssertedOptionalChain": "error",
-                        "noTsIgnore": "error",
-                        "noUnsafeDeclarationMerging": "error",
-                        "noUnusedExpressions": "off",
-                        "useNamespaceKeyword": "error"
-                    }
-                }
-            }
-        }
-    ],
     "assist": {
         "enabled": true,
         "actions": { "source": { "organizeImports": "on" } }
