@@ -7,8 +7,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "tsdown",
-    "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/*.ts --quiet --exec tsx src/index.ts",
-    "start": "node dist/index.mjs"
+    "dev": "NODE_ENV=development bun --watch src/index.ts",
+    "start": "bun dist/index.mjs"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "@openrouter/ai-sdk-provider": "^2.8.0",
     "@orama/orama": "^3.1.18",
     "ai": "^6.0.168",
+    "deepmerge-ts": "^7.1.5",
     "dotenv": "^17.4.2",
     "fast-json-patch": "^3.1.1",
     "google-auth-library": "^10.6.2",
