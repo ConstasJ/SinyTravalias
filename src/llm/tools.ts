@@ -3,12 +3,18 @@ import { generateObject, streamGenerateText } from './service.js';
 import {
     type ContextBlock,
     type GenerationConstraints,
+    type LLMRuntimeOptions,
     type PlotSummaryInput,
     PlotSummaryOutputSchema,
     type SceneGenerationInput,
     type StatePatchExtractionInput,
     StatePatchExtractionOutputSchema
 } from './utils.js';
+
+type ToolCallOptions = {
+    modelId?: string;
+    runtime?: LLMRuntimeOptions;
+};
 
 function renderContextBlock(context: ContextBlock): string {
     return [
@@ -34,8 +40,7 @@ function renderConstraints(constraints?: GenerationConstraints): string {
         '【约束】',
         `- mustKeepFacts: ${constraints.mustKeepFacts?.join(' | ') ?? '（无）'}`,
         `- forbiddenEvents: ${constraints.forbiddenEvents?.join(' | ') ?? '（无）'}`,
-        `- styleProfile: ${constraints.styleProfile ?? '（无）'}`,
-        `- tokenBudgetHint: ${constraints.tokenBudgetHint ?? '（无）'}`
+        `- styleProfile: ${constraints.styleProfile ?? '（无）'}`
     ].join('\n');
 }
 
@@ -118,34 +123,46 @@ function buildStatePatchPrompts(input: StatePatchExtractionInput) {
     return { systemPrompt, userPrompt };
 }
 
-export async function generateSceneText(input: SceneGenerationInput) {
+export async function generateSceneText(input: SceneGenerationInput, options?: ToolCallOptions) {
     const { systemPrompt, userPrompt } = buildSceneGenerationPrompts(input);
-    return streamGenerateText(config.models.scene_generate, [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-    ]);
-}
-
-export async function summarizeSceneForPlotNode(input: PlotSummaryInput) {
-    const { systemPrompt, userPrompt } = buildPlotSummaryPrompts(input);
-    return generateObject(
-        config.models.summarize,
+    return streamGenerateText(
+        options?.modelId ?? config.models.scene_generate,
         [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
         ],
-        PlotSummaryOutputSchema
+        options?.runtime
     );
 }
 
-export async function extractStatePatches(input: StatePatchExtractionInput) {
-    const { systemPrompt, userPrompt } = buildStatePatchPrompts(input);
+export async function summarizeSceneForPlotNode(
+    input: PlotSummaryInput,
+    options?: ToolCallOptions
+) {
+    const { systemPrompt, userPrompt } = buildPlotSummaryPrompts(input);
     return generateObject(
-        config.models.state_update,
+        options?.modelId ?? config.models.summarize,
         [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
         ],
-        StatePatchExtractionOutputSchema
+        PlotSummaryOutputSchema,
+        options?.runtime
+    );
+}
+
+export async function extractStatePatches(
+    input: StatePatchExtractionInput,
+    options?: ToolCallOptions
+) {
+    const { systemPrompt, userPrompt } = buildStatePatchPrompts(input);
+    return generateObject(
+        options?.modelId ?? config.models.state_update,
+        [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+        ],
+        StatePatchExtractionOutputSchema,
+        options?.runtime
     );
 }

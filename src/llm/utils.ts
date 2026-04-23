@@ -56,7 +56,31 @@ export type GenerationConstraints = {
     mustKeepFacts?: string[];
     forbiddenEvents?: string[];
     styleProfile?: string;
-    tokenBudgetHint?: number;
+};
+
+export type LLMRuntimeOptions = {
+    temperature?: number;
+    maxOutputTokens?: number;
+    topP?: number;
+    stopSequences?: string[];
+    timeoutMs?: number;
+};
+
+export type LLMTaskKind = 'scene-generate' | 'plot-summarize' | 'state-patch-extract';
+
+export type LLMOrchestrationOptions = {
+    modelOverride?: string;
+    retry?: number;
+    runtime?: LLMRuntimeOptions;
+};
+
+export type LLMOrchestrationMetric = {
+    taskKind: LLMTaskKind;
+    modelId: string;
+    attempt: number;
+    latencyMs: number;
+    success: boolean;
+    error?: string;
 };
 
 export type SceneGenerationInput = {
