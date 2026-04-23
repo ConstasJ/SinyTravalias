@@ -6,9 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "tsdown",
-    "dev": "NODE_ENV=development bun --watch src/index.ts",
-    "start": "bun dist/index.mjs"
+    "build": "tsdown"
   },
   "repository": {
     "type": "git",
