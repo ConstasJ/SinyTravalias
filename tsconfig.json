@@ -3,6 +3,9 @@
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "outDir": "./dist",
 
     // Environment Settings
