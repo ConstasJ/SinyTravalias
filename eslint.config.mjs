@@ -1,5 +1,6 @@
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import prettier from "eslint-config-prettier";
 
 export default [
   {
@@ -10,6 +11,7 @@ export default [
       reportUnusedDisableDirectives: 'warn',
     },
   },
+  prettier,
   {
     files: ['src/**/*.ts'],
     languageOptions: {
@@ -25,77 +27,26 @@ export default [
       '@typescript-eslint': tseslint,
     },
     rules: {
-      ...tseslint.configs.recommended.rules,
-      ...tseslint.configs['recommended-requiring-type-checking'].rules,
-
-      // Avoid duplicate reports with TypeScript-aware rule.
-      'no-unused-vars': 'off',
-
-      // Strict TypeScript rules
-      '@typescript-eslint/no-explicit-any': 'off', // Babel APIs are heavily typed as any
-      '@typescript-eslint/explicit-function-return-type': 'off', // Too strict for internal helpers
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-        },
-      ],
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        {
-          prefer: 'type-imports',
-          disallowTypeAnnotations: false,
-          fixStyle: 'separate-type-imports',
-        },
-      ],
-      '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-misused-promises': 'error',
+      'prefer-promise-reject-errors': 'error',
       '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/no-array-delete': 'error',
+      '@typescript-eslint/no-base-to-string': 'error',
+      '@typescript-eslint/no-duplicate-type-constituents': 'error',
+      '@typescript-eslint/no-redundant-type-constituents': 'error',
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': 'warn', // Warn instead of error
-      '@typescript-eslint/prefer-optional-chain': 'error',
-      '@typescript-eslint/strict-boolean-expressions': 'off', // Too strict for practical use
-      '@typescript-eslint/no-unsafe-assignment': 'off', // Babel traverse uses any extensively
-      '@typescript-eslint/no-unsafe-member-access': 'off', // Babel traverse uses any extensively
-      '@typescript-eslint/no-unsafe-call': 'off', // Babel traverse uses any extensively
-      '@typescript-eslint/no-unsafe-argument': 'off', // Babel traverse uses any extensively
-      '@typescript-eslint/no-unsafe-return': 'off', // Babel traverse uses any extensively
-      '@typescript-eslint/require-await': 'warn', // Warn instead of error
-
-      // General code quality
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-      'no-debugger': 'error',
-      'prefer-const': 'error',
-      'no-var': 'error',
-      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      '@typescript-eslint/no-unsafe-argument': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/no-unsafe-unary-minus': 'error',
+      '@typescript-eslint/no-unused-expressions': 'error',
+      '@typescript-eslint/prefer-promise-reject-errors': 'error',
+      '@typescript-eslint/restrict-template-expressions': 'error',
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/triple-slash-reference': 'error',
+      '@typescript-eslint/unbound-method': 'error',
     },
-  },
-  {
-    files: ['*.config.ts', 'tsdown.config.ts'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: null,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-    },
-    rules: {
-      ...tseslint.configs.recommended.rules,
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-        },
-      ],
-    },
-  },
+  }
 ];

@@ -4,8 +4,12 @@
   "description": "A novel builder with LLM, focusing on setting RAG, context compression and other fields I care.",
   "main": "dist/index.mjs",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --fix",
+    "lint:supplyment": "eslint . --ext .ts --ext .tsx",
+    "lint:supplyment:fix": "eslint . --ext .ts --ext .tsx --fix",
+    "format": "biome format .",
+    "format:check": "biome format . --check",
     "build": "tsdown"
   },
   "repository": {
@@ -21,12 +25,14 @@
   },
   "homepage": "https://github.com/ConstasJ/SinyTravalias#readme",
   "devDependencies": {
+    "@biomejs/biome": "2.4.12",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
     "cross-env": "^10.1.0",
     "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.14",
     "tsdown": "^0.21.9",
     "tsx": "^4.21.0",
