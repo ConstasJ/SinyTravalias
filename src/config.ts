@@ -14,6 +14,15 @@ export const ConfigSchema = z.object({
         summorize: ModelConfigSchema,
         state_update: ModelConfigSchema,
     }),
+    credentials: z.object({
+        vertexAI: z.object({
+            projectId: z.string(),
+            location: z.string(),
+            keyFile: z.string(),
+        }).optional(),
+        openRouter: z.string().optional(),
+        alibaba: z.string().optional(),
+    }),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -35,6 +44,15 @@ function loadConfig(): Config {
                 scene_generate: process.env.SCENE_GENERATE_MODEL,
                 summorize: process.env.SUMMORIZE_MODEL,
                 state_update: process.env.STATE_UPDATE_MODEL,
+            },
+            credentials: {
+                vertexAI: {
+                    projectId: process.env.GOOGLE_VERTEX_PROJECT,
+                    location: process.env.GOOGLE_VERTEX_LOCATION,
+                    keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+                },
+                openRouter: process.env.OPENROUTER_API_KEY,
+                alibaba: process.env.ALIBABA_API_KEY,
             },
         };
         const mergedRaw = deepmerge(fileConfig, envConfig);
