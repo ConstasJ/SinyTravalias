@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ConstasJ/SinyTravalias#readme",
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
@@ -42,6 +43,7 @@
     "dotenv": "^17.4.2",
     "fast-json-patch": "^3.1.1",
     "google-auth-library": "^10.6.2",
+    "js-yaml": "^4.1.1",
     "undici": "^8.1.0",
     "zod": "^4.3.6"
   },
