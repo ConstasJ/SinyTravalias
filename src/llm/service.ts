@@ -1,9 +1,14 @@
-import type { AsyncIterableStream, DeepPartial, ModelMessage } from 'ai';
+import type { ModelMessage } from 'ai';
 import { generateText as aiGenerateText, Output, streamText } from 'ai';
 import type z from 'zod';
-import type { ModelCallMeta, TextResponse, StreamTextResponse, ObjectResponse, StreamObjectResponse } from './utils.js';
+import type {
+    ModelCallMeta,
+    ObjectResponse,
+    StreamObjectResponse,
+    StreamTextResponse,
+    TextResponse
+} from './utils.js';
 import { parseFullModelId } from './utils.js';
-import { vertex } from '@ai-sdk/google-vertex';
 
 export async function streamGenerateText(
     fullModelId: string,

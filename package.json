@@ -8,8 +8,7 @@
         "lint:fix": "biome check . --fix",
         "lint:supplyment": "eslint . --ext .ts --ext .tsx",
         "lint:supplyment:fix": "eslint . --ext .ts --ext .tsx --fix",
-        "format": "biome format .",
-        "format:check": "biome format . --check",
+        "format": "biome format . --write",
         "build": "tsdown"
     },
     "repository": {
