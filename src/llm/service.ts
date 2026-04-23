@@ -1,12 +1,14 @@
-import type { ModelMessage } from 'ai';
-import { generateText as aiGenerateText, streamText } from 'ai';
-import type { ModelCallMeta, ModelResponse, StreamingResponse } from './utils.js';
+import type { AsyncIterableStream, DeepPartial, ModelMessage } from 'ai';
+import { generateText as aiGenerateText, Output, streamText } from 'ai';
+import type z from 'zod';
+import type { ModelCallMeta, TextResponse, StreamTextResponse, ObjectResponse, StreamObjectResponse } from './utils.js';
 import { parseFullModelId } from './utils.js';
+import { vertex } from '@ai-sdk/google-vertex';
 
 export async function streamGenerateText(
     fullModelId: string,
     prompts: ModelMessage[]
-): Promise<StreamingResponse> {
+): Promise<StreamTextResponse> {
     const { provider, modelId } = await parseFullModelId(fullModelId);
     const { promise: meta, resolve } = Promise.withResolvers<ModelCallMeta>();
     const res = streamText({
@@ -31,7 +33,7 @@ export async function streamGenerateText(
 export async function generateText(
     fullModelId: string,
     prompts: ModelMessage[]
-): Promise<ModelResponse> {
+): Promise<TextResponse> {
     const { provider, modelId } = await parseFullModelId(fullModelId);
     const res = await aiGenerateText({
         model: provider(modelId),
@@ -46,5 +48,59 @@ export async function generateText(
             providerMeta: res.providerMetadata
         },
         text: res.text
+    };
+}
+
+export async function generateObject<T>(
+    fullModelId: string,
+    prompts: ModelMessage[],
+    schema: z.ZodType<T>
+): Promise<ObjectResponse<T>> {
+    const { provider, modelId } = await parseFullModelId(fullModelId);
+    const res = await aiGenerateText({
+        model: provider(modelId),
+        messages: prompts,
+        output: Output.object({
+            schema
+        })
+    });
+    return {
+        meta: {
+            model: modelId,
+            reasoning: res.reasoning.map((chunk) => chunk.text),
+            finishReason: res.finishReason,
+            usage: res.usage,
+            providerMeta: res.providerMetadata
+        },
+        object: res.output
+    };
+}
+
+export async function streamGenerateObject<T>(
+    fullModelId: string,
+    prompts: ModelMessage[],
+    schema: z.ZodType<T>
+): Promise<StreamObjectResponse<T>> {
+    const { provider, modelId } = await parseFullModelId(fullModelId);
+    const { promise: meta, resolve } = Promise.withResolvers<ModelCallMeta>();
+    const res = streamText({
+        model: provider(modelId),
+        messages: prompts,
+        output: Output.object({
+            schema
+        }),
+        onFinish: ({ reasoning, finishReason, usage, providerMetadata }) => {
+            resolve({
+                model: modelId,
+                reasoning: reasoning.map((chunk) => chunk.text),
+                finishReason,
+                usage,
+                providerMeta: providerMetadata
+            });
+        }
+    });
+    return {
+        meta,
+        objectStream: res.partialOutputStream
     };
 }
