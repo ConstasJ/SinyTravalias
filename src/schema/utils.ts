@@ -21,5 +21,6 @@ export const _JSONPatchSchema = z.object({
     path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
     value: _DynamicValueSchema
         .optional()
-        .describe('JSON Patch操作的值，表示这个补丁要设置或替换的值')
+        .describe('JSON Patch操作的值，表示这个补丁要设置或替换的值'),
+    from: z.string().optional().describe('JSON Patch操作的来源路径，仅在move和copy操作中使用')
 });

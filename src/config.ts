@@ -11,7 +11,7 @@ export const ConfigSchema = z.object({
     env: z.enum(['development', 'production', 'test']).default('development'),
     models: z.object({
         scene_generate: ModelConfigSchema,
-        summorize: ModelConfigSchema,
+        summarize: ModelConfigSchema,
         state_update: ModelConfigSchema
     }),
     credentials: z.object({
@@ -44,7 +44,7 @@ function loadConfig(): Config {
             env,
             models: {
                 scene_generate: process.env.SCENE_GENERATE_MODEL,
-                summorize: process.env.SUMMORIZE_MODEL,
+                summarize: process.env.SUMMARIZE_MODEL,
                 state_update: process.env.STATE_UPDATE_MODEL
             },
             credentials: {
