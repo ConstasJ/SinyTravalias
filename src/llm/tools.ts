@@ -1,5 +1,5 @@
 import { config } from '@/config.js';
-import { generateObject, generateText } from './service.js';
+import { generateObject, streamGenerateText } from './service.js';
 import {
     type ContextBlock,
     type GenerationConstraints,
@@ -120,7 +120,7 @@ function buildStatePatchPrompts(input: StatePatchExtractionInput) {
 
 export async function generateSceneText(input: SceneGenerationInput) {
     const { systemPrompt, userPrompt } = buildSceneGenerationPrompts(input);
-    return generateText(config.models.scene_generate, [
+    return streamGenerateText(config.models.scene_generate, [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
     ]);
