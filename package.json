@@ -6,8 +6,6 @@
     "scripts": {
         "lint": "biome check .",
         "lint:fix": "biome check . --fix",
-        "lint:supplyment": "eslint . --ext .ts --ext .tsx",
-        "lint:supplyment:fix": "eslint . --ext .ts --ext .tsx --fix",
         "format": "biome format . --write",
         "build": "tsdown"
     },
