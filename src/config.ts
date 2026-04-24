@@ -29,9 +29,9 @@ export const ConfigSchema = z.object({
 
 export type Config = z.infer<typeof ConfigSchema>;
 
-dotenv.config();
+export function getConfig(): Config {
+    dotenv.config();
 
-function loadConfig(): Config {
     const env = process.env.NODE_ENV ?? 'development';
 
     const configPath = resolve(process.cwd(), 'data/config.yaml');
@@ -70,5 +70,3 @@ function loadConfig(): Config {
         throw error;
     }
 }
-
-export const config = loadConfig();
