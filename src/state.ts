@@ -1,5 +1,4 @@
-import type { GlobalState } from '@/schema/state.js';
-import { StateSchema } from '@/schema/state.js';
+import { type GlobalState, StateSchema } from '@/schema/state.js';
 
 const UNINITIALIZED_VALUE = '<未初始化>';
 
