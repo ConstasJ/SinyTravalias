@@ -1,4 +1,5 @@
-import { z } from 'zod';
+import type { Operation } from 'fast-json-patch';
+import { z, ZodType } from 'zod';
 
 export const _DynamicValueSchema: z.ZodType<unknown> = z.lazy(() =>
     z.union([
@@ -14,13 +15,34 @@ export const _DynamicValueSchema: z.ZodType<unknown> = z.lazy(() =>
     ])
 );
 
-export const _JSONPatchSchema = z.object({
-    op: z
-        .enum(['add', 'remove', 'replace', 'move', 'copy', 'test'])
-        .describe('JSON Patch操作的类型，表示这个补丁是添加、删除、替换、移动、复制还是测试'),
-    path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
-    value: _DynamicValueSchema
-        .optional()
-        .describe('JSON Patch操作的值，表示这个补丁要设置或替换的值'),
-    from: z.string().optional().describe('JSON Patch操作的来源路径，仅在move和copy操作中使用')
-});
+export const _JSONPatchSchema = z.discriminatedUnion('op', [
+    z.object({
+        op: z.literal('add').describe('JSON Patch操作的类型，此处固定为add'),
+        path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
+        value: _DynamicValueSchema.describe('JSON Patch操作的值，表示这个补丁要添加的值')
+    }),
+    z.object({
+        op: z.literal('remove').describe('JSON Patch操作的类型，此处固定为remove'),
+        path: z.string().describe('JSON Patch操作的路径，表示这个补丁要删除哪个字段')
+    }),
+    z.object({
+        op: z.literal('replace').describe('JSON Patch操作的类型，此处固定为replace'),
+        path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
+        value: _DynamicValueSchema.describe('JSON Patch操作的值，表示这个补丁要替换的值')
+    }),
+    z.object({
+        op: z.literal('move').describe('JSON Patch操作的类型，此处固定为move'),
+        path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
+        from: z.string().describe('JSON Patch操作的来源路径')
+    }),
+    z.object({
+        op: z.literal('copy').describe('JSON Patch操作的类型，此处固定为copy'),
+        path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
+        from: z.string().describe('JSON Patch操作的来源路径')
+    }),
+    z.object({
+        op: z.literal('test').describe('JSON Patch操作的类型，此处固定为test'),
+        path: z.string().describe('JSON Patch操作的路径，表示这个补丁作用于哪个字段'),
+        value: _DynamicValueSchema.describe('JSON Patch操作的值，表示这个补丁要测试的值')
+    })
+]) satisfies ZodType<Operation>;
