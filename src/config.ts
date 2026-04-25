@@ -70,3 +70,5 @@ export function getConfig(): Config {
         throw error;
     }
 }
+
+export const config = getConfig();
