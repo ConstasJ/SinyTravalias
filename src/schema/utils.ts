@@ -1,5 +1,5 @@
 import type { Operation } from 'fast-json-patch';
-import { z, ZodType } from 'zod';
+import { type ZodType, z } from 'zod';
 
 export const _DynamicValueSchema: z.ZodType<unknown> = z.lazy(() =>
     z.union([
